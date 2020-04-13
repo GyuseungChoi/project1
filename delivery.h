@@ -32,3 +32,5 @@ int d_get_all_by_price_range(Delivery* a[], int pr1, int pr2);
 int d_get_all_by_evaluation(Delivery* a[], char* br);
 void d_init();
 char* d_to_string_save(Delivery* p);
+void d_make_report_price(FILE* f, int pr1, int pr2);
+void d_make_report_evauation(FILE* f, char* n);

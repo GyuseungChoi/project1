@@ -119,7 +119,7 @@ char* d_get_evaluation(Delivery* p){
 int d_get_all_by_category(Delivery* a[], char* n){
 	int i, c=0;
 	for(i=0; i<_count; i++){
-		if(brands[i]!=NULL && strstr(brands[i]->category, n)){
+		if(brands[i]!=NULL && strcmp(brands[i]->category, n)==0){
 			a[c]=brands[i];
 			c++;
 #ifdef DEBUG
@@ -176,5 +176,37 @@ char* d_to_string_save(Delivery* p){
 	printf("[DEBUG] %s is saved\n", p->brand);
 #endif
 	return str;
+}
+
+void d_make_report_price(FILE* f, int pr1, int pr2){
+	Delivery* records[MAX_BRANDS];
+	int size = d_get_all_by_price_range(records, pr1, pr2);
+	printf("%d ~ %d: %d brands ", pr1, pr2, size);
+	fprintf(f, "%d ~ %d: %d brands ", pr1, pr2, size);
+	for(int i=0; i<size; i++){
+		Delivery* p = records[i];
+		printf("[%s] %s  ", d_get_category(p), d_get_brand(p));
+		fprintf(f, "[%s] %s  ", d_get_category(p), d_get_brand(p));
+	}
+	fprintf(f, "\n");
+#ifdef DEBUG
+	printf("[DEBUG] price report is saved");
+#endif
+}
+
+void d_make_report_evauation(FILE* f, char* n){
+	Delivery* records[MAX_BRANDS];
+	int size = d_get_all_by_evaluation(records, n);
+	printf("%s: %d brands ", n, size);
+	fprintf(f, "%s: %d brands ", n, size);
+	for(int i=0; i<size; i++){
+		Delivery* p = records[i];
+		printf("[%s] %s  ", d_get_category(p), d_get_brand(p));
+		fprintf(f, "[%s] %s  ", d_get_category(p), d_get_brand(p));
+	}
+	fprintf(f, "\n");
+#ifdef DEBUG
+	printf("[DEBUG] evaluation report is saved");
+#endif
 }
 

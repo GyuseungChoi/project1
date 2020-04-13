@@ -1,0 +1,9 @@
+price range
+0 ~ 10000: 2 brands [hamburger] mcdonald's  [chinese] haohao  
+10000 ~ 20000: 3 brands [chicken] pelicana  [hamburger] mcdonald's  [chicken] bbq  
+20000 ~ 30000: 1 brands [chicken] bbq  
+30000 ~ 50000: 0 brands 
+evaluation
+good: 2 brands [hamburger] mcdonald's  [chinese] haohao  
+soso: 2 brands [chicken] pelicana  [chicken] bbq  
+bad: 0 brands 

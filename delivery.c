@@ -28,13 +28,14 @@ int d_count(){
 	return _count;
 }
 
-void d_create(char* br, char* ca, char* pn, int pr, char* ev){
+void d_create(char* br, char* ca, char* pn, char* ma, int pr, char* ev){
 	int index = d_first_available();
 	brands[index] = (Delivery*)malloc(sizeof(Delivery));
 	Delivery* p = brands[index];
 	strcpy(p->brand, br);
 	strcpy(p->category, ca);
 	strcpy(p->phone_number, pn);
+	strcpy(p->main, ma);
 	p->price = pr;
 	strcpy(p->evaluation, ev);
 	_count++;
@@ -53,28 +54,34 @@ Delivery* d_search_by_brand(char* br){
 	return NULL;
 }
 
-void d_update(Delivery* p, char* ca, char* pn, int pr, char* ev){
+void d_update(Delivery* p, char* ca, char* pn, char* ma, int pr, char* ev){
 	strcpy(p->category, ca);
 	strcpy(p->phone_number, pn);
+	strcpy(p->main, ma);
 	p->price = pr;
 	strcpy(p->evaluation, ev);
 }
 
 void d_delete(Delivery* p){
-	int i, index;
-	for(i=0; i<_count; i++)
+	int i, j, index;
+	for(i=0; i<_count; i++){
 		if(brands[i]==p){
 			index=i;
 			break;
 		}
+	}
 	free(p);
 	brands[index] = NULL;
+	for(j=index; j<_count-1; j++){
+		brands[j] = brands[j+1];
+	}
+	brands[_count-1] = NULL;
 	_count--;
 }
 
 char* d_to_string(Delivery* p){
 	static char str[80];
-	sprintf(str, "[%s] %s / %s / %d / %s", p->category, p->brand, p->phone_number, p->price, p->evaluation);
+	sprintf(str, "[%s] %s / %s / %s / %d / %s", p->category, p->brand, p->phone_number, p->main, p->price, p->evaluation);
 	return str;
 }
 
@@ -104,6 +111,10 @@ char* d_get_category(Delivery* p){
 	return p->category;
 }
 
+char* d_get_main(Delivery* p){
+	return p->main;
+}
+
 char* d_get_phone_number(Delivery* p){
 	return p->phone_number;
 }
@@ -119,7 +130,7 @@ char* d_get_evaluation(Delivery* p){
 int d_get_all_by_category(Delivery* a[], char* n){
 	int i, c=0;
 	for(i=0; i<_count; i++){
-		if(brands[i]!=NULL && strcmp(brands[i]->category, n)==0){
+		if(brands[i]!=NULL && strstr(brands[i]->category, n)){
 			a[c]=brands[i];
 			c++;
 #ifdef DEBUG
@@ -171,11 +182,22 @@ void d_init(){
 
 char* d_to_string_save(Delivery* p){
 	static char str[80];
-	sprintf(str, "%s %s %s %d %s", p->brand, p->category, p->phone_number, p->price, p->evaluation);
+	sprintf(str, "%s %s %s %s %d %s", p->brand, p->category, p->phone_number, p->main, p->price, p->evaluation);
 #ifdef DEBUG
 	printf("[DEBUG] %s is saved\n", p->brand);
 #endif
 	return str;
+}
+
+void d_make_report_category(FILE* f, char* ca){
+	Delivery* records[MAX_BRANDS];
+	int size = d_get_all_by_category(records, ca);
+	printf("%s: %d brands ", ca, size);
+	fprintf(f, "%s: %d brands ", ca, size);
+	fprintf(f, "\n");
+#ifdef DEBUG
+	printf("[DEBUG] category report is saved");
+#endif
 }
 
 void d_make_report_price(FILE* f, int pr1, int pr2){
@@ -183,11 +205,6 @@ void d_make_report_price(FILE* f, int pr1, int pr2){
 	int size = d_get_all_by_price_range(records, pr1, pr2);
 	printf("%d ~ %d: %d brands ", pr1, pr2, size);
 	fprintf(f, "%d ~ %d: %d brands ", pr1, pr2, size);
-	for(int i=0; i<size; i++){
-		Delivery* p = records[i];
-		printf("[%s] %s  ", d_get_category(p), d_get_brand(p));
-		fprintf(f, "[%s] %s  ", d_get_category(p), d_get_brand(p));
-	}
 	fprintf(f, "\n");
 #ifdef DEBUG
 	printf("[DEBUG] price report is saved");
@@ -199,14 +216,22 @@ void d_make_report_evauation(FILE* f, char* n){
 	int size = d_get_all_by_evaluation(records, n);
 	printf("%s: %d brands ", n, size);
 	fprintf(f, "%s: %d brands ", n, size);
-	for(int i=0; i<size; i++){
-		Delivery* p = records[i];
-		printf("[%s] %s  ", d_get_category(p), d_get_brand(p));
-		fprintf(f, "[%s] %s  ", d_get_category(p), d_get_brand(p));
-	}
 	fprintf(f, "\n");
 #ifdef DEBUG
 	printf("[DEBUG] evaluation report is saved");
 #endif
 }
 
+void d_sort_price(){
+	Delivery* temp;
+	int n = _count;
+	for(int i=0; i < n-1; i++){
+		for(int j=0; j<n-i-1; j++){
+			if(brands[j+1]->price < brands[j]->price){
+				temp = brands[j+1];
+				brands[j+1] = brands[j];
+				brands[j] = temp;
+			}
+		}
+	}
+}

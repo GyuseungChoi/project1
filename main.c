@@ -11,12 +11,13 @@ void search_evaluation();
 void load_file();
 void save_file();
 void make_report();
+void sort_by_price();
 void debug_records();
 int main(){
 	d_init();
 	int menu;
 	while(1){
-		printf("\nMenu : 1.Create 2.Read 3.Update 4.Delete 5.list 6.Search(category) 7.Search(evaluation) 8.Search(price_range) 9.Load 10.Save 11.make_report 0.Quit> ");
+		printf("\nMenu : 1.Create 2.Read 3.Update 4.Delete 5.list 6.Search(category) 7.Search(evaluation) 8.Search(price_range) 9.Load 10.Save 11.make_report 12.sort by price 0.Quit> ");
 		scanf("%d", &menu);
 #ifdef DEBUG
 		printf("[DEBUG]menu is %d", menu);
@@ -57,6 +58,9 @@ int main(){
 				make_report();
 				break;
 			case 12:
+				sort_by_price();
+				break;
+			case 13:
 				debug_records();
 				break;
 			case 0:	
@@ -71,7 +75,7 @@ void create_record(){
 		printf("There is no space!\n");
 		return;
 	}
-	char brand[20], category[20], phone_number[20], evaluation[20];
+	char brand[20], category[20], main[20], phone_number[20], evaluation[20];
 	int price;
 	printf("Enter a new brand's info.\n");
 	printf("Brand> ");
@@ -84,11 +88,13 @@ void create_record(){
 	scanf("%s", category);
 	printf("Phone number > ");
 	scanf("%s", phone_number);
+	printf("Main menu > ");
+	scanf("%s", main);
 	printf("Price > ");
 	scanf("%d", &price);
 	printf("Evaluation > ");
 	scanf("%s", evaluation);
-	d_create(brand, category, phone_number, price, evaluation);
+	d_create(brand, category, phone_number, main, price, evaluation);
 	printf("1 brand is created!");
 	printf("\n");
 }
@@ -104,6 +110,7 @@ void read_record(){
 		printf("Brand : %s\n", d_get_brand(p));
 		printf("Category : %s\n", d_get_category(p));
 		printf("Phone number : %s\n", d_get_phone_number(p));
+		printf("Main menu : %s\n", d_get_main(p));
 		printf("Price : %d\n", d_get_price(p));
 		printf("Evaluation : %s\n", d_get_evaluation(p));
 	}
@@ -117,7 +124,7 @@ void update_record(){
 	int num;
 	scanf("%d", &num);
 	if(num == 1){
-		char brand[20], category[20], phone_number[20], evaluation[20];
+		char brand[20], category[20], main[20], phone_number[20], evaluation[20];
 		int price;
 		printf("Enter a brand > ");
 		scanf("%s", brand);
@@ -129,12 +136,14 @@ void update_record(){
 			scanf("%s", category);
 			printf("Phone number > ");
 			scanf("%s", phone_number);
+			printf("Main menu > ");
+			scanf("%s", main);
 			printf("Price > ");
 			scanf("%d", &price);
 			printf("Evaluation > ");
 			scanf("%s", evaluation);
 
-			d_update(p, category, phone_number, price, evaluation);
+			d_update(p, category, phone_number, main, price, evaluation);
 	#ifdef DEBUG
 			printf("[DEBUG] %s is updated", brand);
 	#endif
@@ -144,7 +153,7 @@ void update_record(){
 		}
 	}
 	else if(num == 2){
-		char category[20], phone_number[20], evaluation[20];
+		char category[20], main[20], phone_number[20], evaluation[20];
 		int price;
 		printf("Enter a category > ");
 		scanf("%s", category);
@@ -154,17 +163,19 @@ void update_record(){
 		printf("%d records is updating.\n", size);
 		for(int i=0; i<size; i++){
 			Delivery* p = records[i];
-			printf("Enter %s a updated info.\n", d_get_brand(p));
+			printf("Enter %s's updated info.\n", d_get_brand(p));
 			printf("Category > ");
 			scanf("%s", category);
 			printf("Phone number > ");
 			scanf("%s", phone_number);
+			printf("Main menu > ");
+			scanf("%s", main);
 			printf("Price > ");
 			scanf("%d", &price);
 			printf("Evaluation > ");
 			scanf("%s", evaluation);
 
-			d_update(p, category, phone_number, price, evaluation);
+			d_update(p, category, phone_number, main, price, evaluation);
 			printf("\n");
 	#ifdef DEBUG
 			printf("[DEBUG] %s is updated", brand);
@@ -172,7 +183,7 @@ void update_record(){
 		}
 	}
 	else if (num==3){
-		char category[20], phone_number[20], evaluation[20];
+		char category[20], main[20], phone_number[20], evaluation[20];
 		int price;
 		int size = d_count();
 		Delivery* records[MAX_BRANDS];
@@ -180,17 +191,19 @@ void update_record(){
 		printf("%d records are updating\n", size);
 		for(int i=0; i<size; i++){
 			Delivery* p = records[i];
-
+			printf("Enter %s's updated info.\n", d_get_brand(p));
 			printf("Category > ");
 			scanf("%s", category);
 			printf("Phone number > ");
 			scanf("%s", phone_number);
+			printf("Main menu > ");
+			scanf("%s", main);
 			printf("Price > ");
 			scanf("%d", &price);
 			printf("Evaluation > ");
 			scanf("%s", evaluation);
 
-			d_update(p, category, phone_number, price, evaluation);
+			d_update(p, category, phone_number, main, price, evaluation);
 			printf("\n");
 	#ifdef DEBUG
 			printf("[DEBUG] %s is updated", brand);
@@ -313,20 +326,20 @@ void load_file(){
 	d_init();
 
 	FILE* f = fopen("brands.txt", "r");
-	char brand[20], category[20], phone_number[20], evaluation[20];
+	char brand[20], category[20], main[20], phone_number[20], evaluation[20];
 	int price;
 	while(!feof(f)){
 		if(!d_is_available()){
 			printf("[Load] There is no space!\n");
 			break;
 		}
-		int n = fscanf(f,"%s %s %s %d %s", brand, category, phone_number, &price, evaluation);
-		if (n<5) break;
+		int n = fscanf(f,"%s %s %s %s %d %s", brand, category, phone_number, main, &price, evaluation);
+		if (n<6) break;
 		if(d_search_by_brand(brand)){
 			printf("[Load] Duplicated name(%s)! loading.\n", brand);
 			continue;
 		}
-		d_create(brand, category, phone_number, price, evaluation);
+		d_create(brand, category, phone_number, main, price, evaluation);
 #ifdef DEBUG
 		printf("[DEBUG] Loaded %s\n", brand);
 #endif
@@ -337,7 +350,6 @@ void load_file(){
 
 void save_file(){
 	FILE* f = fopen("brands.txt", "w");
-	printf("All records.\n");
 	int size = d_count();
 	Delivery* records[MAX_BRANDS];
 	d_get_all(records);
@@ -345,11 +357,20 @@ void save_file(){
 		Delivery* p = records[i];
 		fprintf(f,"%s\n", d_to_string_save(p));
 	}
+	printf("All records are saved.\n");
 	fclose(f);
 }
 
 void make_report(){
 	FILE* f = fopen("report.txt", "w");
+	char* category[]={"치킨","피자","햄버거","족발/보쌈","한식","일식","중식","양식","디저트"};
+	printf("category\n");
+	fprintf(f, "category\n");
+	for(int i=0; i<9; i++){
+		d_make_report_category(f, category[i]);
+		printf("\n");
+	}
+
 	printf("price range\n");
 	fprintf(f,"price range\n");
 	d_make_report_price(f, 0, 10000);
@@ -370,6 +391,11 @@ void make_report(){
 	d_make_report_evauation(f, "bad");
 	printf("\n");
 	fclose(f);
+}
+
+void sort_by_price(){
+	d_sort_price();
+	printf("All records are sorted by price.\n");
 }
 
 void debug_records(){

@@ -1,9 +1,19 @@
+category
+치킨: 6 brands 
+피자: 5 brands 
+햄버거: 3 brands 
+족발/보쌈: 5 brands 
+한식: 13 brands 
+일식: 4 brands 
+중식: 6 brands 
+양식: 0 brands 
+디저트: 3 brands 
 price range
-0 ~ 10000: 2 brands [hamburger] mcdonald's  [chinese] haohao  
-10000 ~ 20000: 3 brands [chicken] pelicana  [hamburger] mcdonald's  [chicken] bbq  
-20000 ~ 30000: 1 brands [chicken] bbq  
-30000 ~ 50000: 0 brands 
+0 ~ 10000: 18 brands 
+10000 ~ 20000: 18 brands 
+20000 ~ 30000: 14 brands 
+30000 ~ 50000: 5 brands 
 evaluation
-good: 2 brands [hamburger] mcdonald's  [chinese] haohao  
-soso: 2 brands [chicken] pelicana  [chicken] bbq  
-bad: 0 brands 
+good: 26 brands 
+soso: 14 brands 
+bad: 10 brands 

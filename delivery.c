@@ -35,7 +35,7 @@ void d_create(char* br, char* ca, char* pn, char* ma, int pr, char* ev){
 	strcpy(p->brand, br);
 	strcpy(p->category, ca);
 	strcpy(p->phone_number, pn);
-	strcpy(p->main, ma);
+	strcpy(p->main_menu, ma);
 	p->price = pr;
 	strcpy(p->evaluation, ev);
 	_count++;
@@ -57,7 +57,7 @@ Delivery* d_search_by_brand(char* br){
 void d_update(Delivery* p, char* ca, char* pn, char* ma, int pr, char* ev){
 	strcpy(p->category, ca);
 	strcpy(p->phone_number, pn);
-	strcpy(p->main, ma);
+	strcpy(p->main_menu, ma);
 	p->price = pr;
 	strcpy(p->evaluation, ev);
 }
@@ -81,7 +81,7 @@ void d_delete(Delivery* p){
 
 char* d_to_string(Delivery* p){
 	static char str[80];
-	sprintf(str, "[%s] %s / %s / %s / %d / %s", p->category, p->brand, p->phone_number, p->main, p->price, p->evaluation);
+	sprintf(str, "[%s] %s / %s / %s / %d / %s", p->category, p->brand, p->phone_number, p->main_menu, p->price, p->evaluation);
 	return str;
 }
 
@@ -111,8 +111,8 @@ char* d_get_category(Delivery* p){
 	return p->category;
 }
 
-char* d_get_main(Delivery* p){
-	return p->main;
+char* d_get_main_menu(Delivery* p){
+	return p->main_menu;
 }
 
 char* d_get_phone_number(Delivery* p){
@@ -182,7 +182,7 @@ void d_init(){
 
 char* d_to_string_save(Delivery* p){
 	static char str[80];
-	sprintf(str, "%s %s %s %s %d %s", p->brand, p->category, p->phone_number, p->main, p->price, p->evaluation);
+	sprintf(str, "%s %s %s %s %d %s", p->brand, p->category, p->phone_number, p->main_menu, p->price, p->evaluation);
 #ifdef DEBUG
 	printf("[DEBUG] %s is saved\n", p->brand);
 #endif

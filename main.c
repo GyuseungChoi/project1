@@ -75,7 +75,7 @@ void create_record(){
 		printf("There is no space!\n");
 		return;
 	}
-	char brand[20], category[20], main[20], phone_number[20], evaluation[20];
+	char brand[20], category[20], main_menu[20], phone_number[20], evaluation[20];
 	int price;
 	printf("Enter a new brand's info.\n");
 	printf("Brand> ");
@@ -89,12 +89,12 @@ void create_record(){
 	printf("Phone number > ");
 	scanf("%s", phone_number);
 	printf("Main menu > ");
-	scanf("%s", main);
+	scanf("%s", main_menu);
 	printf("Price > ");
 	scanf("%d", &price);
 	printf("Evaluation > ");
 	scanf("%s", evaluation);
-	d_create(brand, category, phone_number, main, price, evaluation);
+	d_create(brand, category, phone_number, main_menu, price, evaluation);
 	printf("1 brand is created!");
 	printf("\n");
 }
@@ -110,7 +110,7 @@ void read_record(){
 		printf("Brand : %s\n", d_get_brand(p));
 		printf("Category : %s\n", d_get_category(p));
 		printf("Phone number : %s\n", d_get_phone_number(p));
-		printf("Main menu : %s\n", d_get_main(p));
+		printf("Main menu : %s\n", d_get_main_menu(p));
 		printf("Price : %d\n", d_get_price(p));
 		printf("Evaluation : %s\n", d_get_evaluation(p));
 	}
@@ -124,7 +124,7 @@ void update_record(){
 	int num;
 	scanf("%d", &num);
 	if(num == 1){
-		char brand[20], category[20], main[20], phone_number[20], evaluation[20];
+		char brand[20], category[20], main_menu[20], phone_number[20], evaluation[20];
 		int price;
 		printf("Enter a brand > ");
 		scanf("%s", brand);
@@ -137,13 +137,13 @@ void update_record(){
 			printf("Phone number > ");
 			scanf("%s", phone_number);
 			printf("Main menu > ");
-			scanf("%s", main);
+			scanf("%s", main_menu);
 			printf("Price > ");
 			scanf("%d", &price);
 			printf("Evaluation > ");
 			scanf("%s", evaluation);
 
-			d_update(p, category, phone_number, main, price, evaluation);
+			d_update(p, category, phone_number, main_menu, price, evaluation);
 	#ifdef DEBUG
 			printf("[DEBUG] %s is updated", brand);
 	#endif
@@ -153,7 +153,7 @@ void update_record(){
 		}
 	}
 	else if(num == 2){
-		char category[20], main[20], phone_number[20], evaluation[20];
+		char category[20], main_menu[20], phone_number[20], evaluation[20];
 		int price;
 		printf("Enter a category > ");
 		scanf("%s", category);
@@ -169,21 +169,21 @@ void update_record(){
 			printf("Phone number > ");
 			scanf("%s", phone_number);
 			printf("Main menu > ");
-			scanf("%s", main);
+			scanf("%s", main_menu);
 			printf("Price > ");
 			scanf("%d", &price);
 			printf("Evaluation > ");
 			scanf("%s", evaluation);
 
-			d_update(p, category, phone_number, main, price, evaluation);
+			d_update(p, category, phone_number, main_menu, price, evaluation);
 			printf("\n");
 	#ifdef DEBUG
-			printf("[DEBUG] %s is updated", brand);
+			printf("[DEBUG] %s is updated", p->brand);
 	#endif
 		}
 	}
 	else if (num==3){
-		char category[20], main[20], phone_number[20], evaluation[20];
+		char category[20], main_menu[20], phone_number[20], evaluation[20];
 		int price;
 		int size = d_count();
 		Delivery* records[MAX_BRANDS];
@@ -197,16 +197,16 @@ void update_record(){
 			printf("Phone number > ");
 			scanf("%s", phone_number);
 			printf("Main menu > ");
-			scanf("%s", main);
+			scanf("%s", main_menu);
 			printf("Price > ");
 			scanf("%d", &price);
 			printf("Evaluation > ");
 			scanf("%s", evaluation);
 
-			d_update(p, category, phone_number, main, price, evaluation);
+			d_update(p, category, phone_number, main_menu, price, evaluation);
 			printf("\n");
 	#ifdef DEBUG
-			printf("[DEBUG] %s is updated", brand);
+			printf("[DEBUG] %s is updated", p->brand);
 	#endif
 		}
 	}
@@ -326,20 +326,20 @@ void load_file(){
 	d_init();
 
 	FILE* f = fopen("brands.txt", "r");
-	char brand[20], category[20], main[20], phone_number[20], evaluation[20];
+	char brand[20], category[20], main_menu[20], phone_number[20], evaluation[20];
 	int price;
 	while(!feof(f)){
 		if(!d_is_available()){
 			printf("[Load] There is no space!\n");
 			break;
 		}
-		int n = fscanf(f,"%s %s %s %s %d %s", brand, category, phone_number, main, &price, evaluation);
+		int n = fscanf(f,"%s %s %s %s %d %s", brand, category, phone_number, main_menu, &price, evaluation);
 		if (n<6) break;
 		if(d_search_by_brand(brand)){
 			printf("[Load] Duplicated name(%s)! loading.\n", brand);
 			continue;
 		}
-		d_create(brand, category, phone_number, main, price, evaluation);
+		d_create(brand, category, phone_number, main_menu, price, evaluation);
 #ifdef DEBUG
 		printf("[DEBUG] Loaded %s\n", brand);
 #endif

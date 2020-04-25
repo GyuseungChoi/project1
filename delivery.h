@@ -7,7 +7,7 @@
 typedef struct st_delivery{
 	char brand[20];
 	char category[20];
-	char main[20];
+	char main_menu[20];
 	char phone_number[20];
 	int price;
 	char evaluation[20];
@@ -25,7 +25,7 @@ void d_get_all2(Delivery* a[]);
 char* d_to_string(Delivery* p);
 char* d_get_brand(Delivery* p);
 char* d_get_category(Delivery* p);
-char* d_get_main(Delivery* p);
+char* d_get_main_menu(Delivery* p);
 char* d_get_phone_number(Delivery* p);
 int d_get_price(Delivery* p);
 char* d_get_evaluation(Delivery* p);

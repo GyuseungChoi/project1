@@ -17,7 +17,7 @@ int main(){
 	d_init();
 	int menu;
 	while(1){
-		printf("\nMenu : 1.Create 2.Read 3.Update 4.Delete 5.list 6.Search(category) 7.Search(evaluation) 8.Search(price_range) 9.Load 10.Save 11.make_report 12.sort by price 0.Quit> ");
+		printf("\nMenu : 1.Create 2.Read 3.Update 4.Delete 5.list 6.Search(category) 7.Search(evaluation) 8.Search(price_range) 9.Load 10.Save 11.make_report 12.sort by price 0.종료> ");
 		scanf("%d", &menu);
 #ifdef DEBUG
 		printf("[DEBUG]menu is %d", menu);

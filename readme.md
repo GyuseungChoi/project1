@@ -2,8 +2,8 @@
 제가 만든 프로그램에 대한 설명을 하겠습니다.
 
 ## make ##
-*make main: 일반 실행파일 main 생성
-*make main_debug: debug option이 define된 main_debug 생성
+* make main: 일반 실행파일 main 생성
+* make main_debug: debug option이 define된 main_debug 생성
 
 ## 프로그램 ##
 배달음식점의 정보를관리하는 프로그램입니다.

@@ -34,3 +34,5 @@
 10. Save: 현재 저장되어있는 정보를 brands.txt에 저장한다
 11. category, price range, evaluation 세가지를 기준으로 저장되어있는 정보 중 각각 몇개의 brands가 있는지 보여주는 보고서의 형식으로 출력하고 이를 report.txt 파일에 저장한다
 12. Sort by price: 저장되어있는 정보를 가격이 brand부터 높은 brand  순으로 재배열 한다
+
+
